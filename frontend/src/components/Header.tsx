@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
-  SparklesIcon,
   BuildingLibraryIcon,
   ChartBarIcon
 } from '@heroicons/react/24/outline';
@@ -21,18 +20,22 @@ export const Header: React.FC<HeaderProps> = ({ isConnected }) => {
         <div className="flex items-center justify-between h-20">
           {/* Logo & Platform Name */}
           <div className="flex items-center space-x-3.5">
-            <Link to="/" className="group flex items-center space-x-3">
-              <div className="w-11 h-11 rounded-2xl bg-emerald-700 text-white flex items-center justify-center shadow-md group-hover:bg-emerald-800 transition-colors">
-                <SparklesIcon className="h-6 w-6 text-emerald-200" />
+            <Link to="/" className="group flex items-center space-x-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-800/10 border border-emerald-300 flex items-center justify-center p-1.5 shadow-sm group-hover:border-emerald-500 group-hover:bg-emerald-800/20 transition-all">
+                <img 
+                  src="/logo_flower.png" 
+                  alt="GreenPulse Flower Logo" 
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                />
               </div>
               <div>
                 <div className="flex items-center space-x-2.5">
-                  <span className="text-xl font-black text-slate-900 tracking-tight">GreenPulse</span>
+                  <span className="text-2xl font-black text-slate-900 tracking-tight">GreenPulse</span>
                   <span className="text-xs font-extrabold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
                     Agri-DPG
                   </span>
                 </div>
-                <p className="text-xs text-slate-500 font-medium">Digital Public Good • Agriculture Intelligence Network</p>
+                <p className="text-xs text-slate-500 font-semibold">Digital Public Good • Agriculture Intelligence Network</p>
               </div>
             </Link>
           </div>

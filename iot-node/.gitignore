@@ -1,0 +1,17 @@
+# Environment & Secrets
+.env
+.env*
+!.env.example
+
+# Captured Images & Output
+images/
+*.jpg
+*.jpeg
+*.png
+
+# Python
+__pycache__/
+*.pyc
+
+# Logs
+*.log

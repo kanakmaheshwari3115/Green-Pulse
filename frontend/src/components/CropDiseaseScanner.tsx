@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   CameraIcon, 
   ArrowPathIcon, 
@@ -23,6 +23,12 @@ export const CropDiseaseScanner: React.FC = () => {
     { label: 'Wheat Yellow Rust', crop: 'wheat', icon: '🌿' },
     { label: 'Cotton Leaf Curl', crop: 'cotton', icon: '☁️' },
   ];
+
+  // Run initial diagnosis on mount so report card is immediately visible
+  useEffect(() => {
+    runDiagnosis('tomato');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -56,7 +62,7 @@ export const CropDiseaseScanner: React.FC = () => {
 
   return (
     <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
-      {/* Header - Rich Contrast & Clear Typography */}
+      {/* Header */}
       <div className="p-6 sm:p-8 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-emerald-50/50 to-white">
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 rounded-2xl bg-emerald-700 text-white flex items-center justify-center shadow-sm">
@@ -179,7 +185,7 @@ export const CropDiseaseScanner: React.FC = () => {
         </div>
 
         {/* Diagnosis Report Card */}
-        {diagnosis && (
+        {diagnosis ? (
           <div className="border-2 border-slate-200 rounded-3xl bg-white p-6 sm:p-8 space-y-6 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-100">
               <div>
@@ -228,7 +234,7 @@ export const CropDiseaseScanner: React.FC = () => {
               </div>
             </div>
 
-            {/* Remedies Split View - Rich Contrast Cards */}
+            {/* Remedies Split View */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Organic Remedies */}
               <div className="p-6 rounded-3xl bg-emerald-50/90 border-2 border-emerald-300 space-y-3">
@@ -273,6 +279,11 @@ export const CropDiseaseScanner: React.FC = () => {
                 </div>
               </div>
             )}
+          </div>
+        ) : (
+          <div className="p-8 text-center text-slate-500 bg-slate-50 rounded-3xl border border-slate-200">
+            <ArrowPathIcon className="h-6 w-6 animate-spin mx-auto text-emerald-600 mb-2" />
+            <p className="text-sm font-bold text-slate-700">Loading AI Pathology Diagnosis...</p>
           </div>
         )}
       </div>
