@@ -1,0 +1,10 @@
+requests==2.31.0
+adafruit-circuitpython-dht==3.7.9
+RPi.GPIO==0.7.1
+picamera==0.13.13
+opencv-python==4.8.1.78
+numpy==1.24.3
+pillow==10.1.0
+python-dotenv==1.0.0
+schedule==1.2.0
+paho-mqtt==1.6.1
