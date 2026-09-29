@@ -9,7 +9,9 @@ class WebSocketService {
 
   connect(clientId: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8000';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      const defaultWsUrl = apiUrl.replace(/^http/, 'ws');
+      const wsUrl = process.env.REACT_APP_WS_URL || defaultWsUrl;
       
       try {
         this.socket = io(wsUrl, {
