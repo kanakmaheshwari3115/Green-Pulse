@@ -161,7 +161,6 @@ export interface SatelliteWeatherResult {
 export interface StateDPGModelResult {
   dpg_specification: string;
   version: string;
-  license: string;
   cross_state_collaborations: Array<{
     partnership: string;
     focus: string;

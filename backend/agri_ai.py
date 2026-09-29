@@ -414,7 +414,6 @@ class AgriAIEngine:
         return {
             "dpg_specification": "India Digital Agriculture Public Good Network",
             "version": "2.1.0-open-dpg",
-            "license": "Open Data Commons Open Database License (ODbL)",
             "cross_state_collaborations": [
                 {
                     "partnership": "Punjab-Haryana Ground Water Reclamation Consortium",

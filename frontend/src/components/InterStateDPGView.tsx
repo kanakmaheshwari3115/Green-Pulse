@@ -121,9 +121,9 @@ export const InterStateDPGView: React.FC = () => {
             <p className="text-sm text-slate-500 mt-1 font-medium">/ IDEA Protocol</p>
           </div>
           <div className="p-6 bg-gradient-to-br from-amber-50 to-white">
-            <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Open License</p>
-            <p className="text-2xl sm:text-3xl font-black text-amber-700">ODbL 1.0</p>
-            <p className="text-sm text-slate-500 mt-1 font-medium">Open License</p>
+            <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Data Access</p>
+            <p className="text-2xl sm:text-3xl font-black text-amber-700">Open Access</p>
+            <p className="text-sm text-slate-500 mt-1 font-medium">Public Good Network</p>
           </div>
         </div>
       </div>

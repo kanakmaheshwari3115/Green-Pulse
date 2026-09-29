@@ -199,8 +199,3 @@ python main.py
 | `POST` | `/api/sensor-data` | Telemetry ingestion endpoint for on-farm IoT soil/weather nodes |
 | `WS` | `/ws/{client_id}` | WebSocket stream for instantaneous field telemetry & critical alerts |
 
----
-
-## License
-
-Published as an open Digital Public Good (DPG) infrastructure with models and schemas released under the [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/).
