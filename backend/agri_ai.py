@@ -1,5 +1,7 @@
 import numpy as np
 import random
+import urllib.request
+import json
 from typing import Dict, List, Any, Optional
 from datetime import datetime, timedelta
 
@@ -327,69 +329,142 @@ class AgriAIEngine:
             "regenerative_companion_crop": companion,
             "soil_conservation_plan": soil_actions,
             "companion_crop_options": companion_crops or ["Cowpea (Lobia)", "Sunn hemp", "Field bean"],
-            "water_savings_percentage": water_savings,
-            "soil_carbon_sequestration_rating": "High (adds ~0.4 tonnes C/ha/year under zero-till)",
+            "water_savings_percentage_indicative": water_savings,
+            "water_savings_basis": "Heuristic estimate based on crop type and season; not a field-measured result.",
+            "soil_carbon_sequestration_rating": "High (adds ~0.4 tonnes C/ha/year under zero-till, per published agroforestry literature)",
             "state_proven_practices": state_info["regenerative_focus"],
-            "advisory_summary": f"Optimal regenerative rotation for {state_info['name']} under current {season} conditions. Combines {primary_crop} with {companion} to cut synthetic inputs by 35%."
+            "advisory_summary": f"Optimal regenerative rotation for {state_info['name']} under current {season} conditions. Combines {primary_crop} with {companion} to reduce synthetic input dependency."
         }
 
     def get_satellite_and_weather_analytics(self, lat: float = 28.6139, lon: float = 77.2090) -> Dict[str, Any]:
         """
-        Simulates and synthesizes Sentinel-2 / Landsat NDVI & localized 7-day weather forecasting.
+        Returns Sentinel-2-modelled NDVI/NDWI (simulated) combined with a REAL 7-day
+        weather forecast fetched from the Open-Meteo free API (no key required).
+        Falls back to random simulation if the network is unavailable.
         """
-        # Simulated NDVI (Normalized Difference Vegetation Index: -0.1 to 0.9)
+        # ------------------------------------------------------------------
+        # NDVI / NDWI -- satellite API integration planned; kept simulated
+        # ------------------------------------------------------------------
         base_ndvi = 0.68
-        ndvi_variation = random.uniform(-0.04, 0.05)
-        current_ndvi = round(base_ndvi + ndvi_variation, 3)
-
-        # NDWI (Normalized Difference Water Index)
+        current_ndvi = round(base_ndvi + random.uniform(-0.04, 0.05), 3)
         current_ndwi = round(0.38 + random.uniform(-0.03, 0.04), 3)
 
-        # 7-day Agro-weather forecast
-        today = datetime.utcnow()
+        # ------------------------------------------------------------------
+        # WMO weather-code -> human-readable condition mapping
+        # ------------------------------------------------------------------
+        def _wmo_to_condition(code: int) -> str:
+            if code in (0, 1):
+                return "Clear"
+            if code in (2, 3):
+                return "Partly Cloudy"
+            if code in (45, 48):
+                return "Foggy"
+            if code in (51, 53, 55, 61, 63, 65):
+                return "Rain"
+            if code in (71, 73, 75, 77):
+                return "Snow"
+            if code in (80, 81, 82):
+                return "Showers"
+            if code in (85, 86):
+                return "Snow Showers"
+            if code in (95, 96, 99):
+                return "Thunderstorm"
+            return "Cloudy"
+
+        # ------------------------------------------------------------------
+        # Try to fetch live 7-day forecast from Open-Meteo
+        # ------------------------------------------------------------------
         forecast_days = []
-        conditions = ["Sunny", "Partly Cloudy", "Light Rain", "Thunderstorm", "Scattered Showers"]
+        weather_source = "Simulated (Open-Meteo unavailable)"
 
-        for i in range(7):
-            day_date = today + timedelta(days=i)
-            day_temp = round(28.0 + random.uniform(-3, 5), 1)
-            day_humidity = round(55.0 + random.uniform(-10, 20), 1)
-            day_rain_prob = random.choice([10, 20, 45, 75, 80, 15, 5])
-            
-            forecast_days.append({
-                "date": day_date.strftime("%Y-%m-%d"),
-                "day_name": day_date.strftime("%a"),
-                "temp_max": day_temp + 3,
-                "temp_min": day_temp - 5,
-                "humidity": day_humidity,
-                "rain_probability": day_rain_prob,
-                "precipitation_mm": round(day_rain_prob * 0.15, 1) if day_rain_prob > 40 else 0.0,
-                "condition": "Rain Warning" if day_rain_prob >= 75 else ("Cloudy" if day_rain_prob > 30 else "Clear")
-            })
+        try:
+            url = (
+                f"https://api.open-meteo.com/v1/forecast"
+                f"?latitude={lat}&longitude={lon}"
+                f"&daily=temperature_2m_max,temperature_2m_min,"
+                f"precipitation_probability_max,precipitation_sum,weathercode"
+                f"&timezone=Asia%2FKolkata&forecast_days=7"
+            )
+            with urllib.request.urlopen(url, timeout=5) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
 
-        # Urgent Agro-Advisory Alert based on forecast
+            daily = data["daily"]
+            for i in range(7):
+                date_str = daily["time"][i]                      # "YYYY-MM-DD"
+                day_dt = datetime.strptime(date_str, "%Y-%m-%d")
+                temp_max = round(float(daily["temperature_2m_max"][i]), 1)
+                temp_min = round(float(daily["temperature_2m_min"][i]), 1)
+                rain_prob = int(daily["precipitation_probability_max"][i] or 0)
+                precip_mm = round(float(daily["precipitation_sum"][i] or 0.0), 1)
+                condition = _wmo_to_condition(int(daily["weathercode"][i]))
+                # Open-Meteo daily endpoint has no humidity -- keep simulated
+                humidity = round(60 + random.uniform(-10, 15), 1)
+
+                forecast_days.append({
+                    "date": date_str,
+                    "day_name": day_dt.strftime("%a"),
+                    "temp_max": temp_max,
+                    "temp_min": temp_min,
+                    "humidity": humidity,
+                    "rain_probability": rain_prob,
+                    "precipitation_mm": precip_mm,
+                    "condition": condition,
+                })
+
+            weather_source = "Open-Meteo (open-meteo.com)"
+            print("[OK] Open-Meteo 7-day forecast fetched successfully.")
+
+        except Exception as exc:
+            print(f"[WARN] Open-Meteo fetch failed ({exc}). Using simulated weather data.")
+            today = datetime.utcnow()
+            for i in range(7):
+                day_date = today + timedelta(days=i)
+                day_temp = round(28.0 + random.uniform(-3, 5), 1)
+                day_rain_prob = random.choice([10, 20, 45, 75, 80, 15, 5])
+                forecast_days.append({
+                    "date": day_date.strftime("%Y-%m-%d"),
+                    "day_name": day_date.strftime("%a"),
+                    "temp_max": round(day_temp + 3, 1),
+                    "temp_min": round(day_temp - 5, 1),
+                    "humidity": round(60 + random.uniform(-10, 15), 1),
+                    "rain_probability": day_rain_prob,
+                    "precipitation_mm": round(day_rain_prob * 0.15, 1) if day_rain_prob > 40 else 0.0,
+                    "condition": "Rain Warning" if day_rain_prob >= 75 else ("Cloudy" if day_rain_prob > 30 else "Clear"),
+                })
+
+        # ------------------------------------------------------------------
+        # Urgent agro-advisory (unchanged logic -- reads from forecast_days)
+        # ------------------------------------------------------------------
         rainy_days = [d for d in forecast_days[:3] if d["rain_probability"] >= 70]
         if rainy_days:
-            urgent_alert = f"[WARNING] Heavy rain forecasted on {rainy_days[0]['day_name']} ({rainy_days[0]['precipitation_mm']}mm). Postpone pesticide sprays and open field drainage channels to prevent root rot."
+            urgent_alert = (
+                f"[WARNING] Heavy rain forecasted on {rainy_days[0]['day_name']} "
+                f"({rainy_days[0]['precipitation_mm']}mm). Postpone pesticide sprays "
+                f"and open field drainage channels to prevent root rot."
+            )
         else:
-            urgent_alert = "[OK] Favorable dry weather over next 48 hours. Optimal window for intercultural operations, foliar bio-fertilizer application, and weeding."
+            urgent_alert = (
+                "[OK] Favorable dry weather over next 48 hours. Optimal window for "
+                "intercultural operations, foliar bio-fertilizer application, and weeding."
+            )
 
         return {
             "satellite_intelligence": {
-                "source": "Sentinel-2 L2A Harmonized Multispectral",
+                "source": "Simulated (Sentinel-2 L2A model -- satellite API integration planned)",
                 "resolution": "10-meter spatial resolution",
                 "ndvi": current_ndvi,
                 "ndvi_status": "Healthy & Dense Canopy" if current_ndvi > 0.6 else "Moderate Canopy Vigour",
                 "ndwi_water_index": current_ndwi,
                 "chlorophyll_absorption_ratio": 0.82,
-                "soil_moisture_stress_index": "Low" if current_ndwi > 0.3 else "Moderate Stress"
+                "soil_moisture_stress_index": "Low" if current_ndwi > 0.3 else "Moderate Stress",
             },
             "weather_intelligence": {
+                "source": weather_source,
                 "current_temperature": forecast_days[0]["temp_max"],
                 "current_humidity": forecast_days[0]["humidity"],
                 "forecast_7_days": forecast_days,
-                "agro_weather_advisory": urgent_alert
-            }
+                "agro_weather_advisory": urgent_alert,
+            },
         }
 
     def get_inter_state_dpg_models(self) -> Dict[str, Any]:
@@ -408,7 +483,7 @@ class AgriAIEngine:
                 "shared_models_count": random.randint(12, 28),
                 "active_farmer_nodes": random.randint(120, 850),
                 "key_regenerative_practices": info["regenerative_focus"],
-                "interoperability_standard": "AgriStack / IDEA Open DPG v1.2"
+                "interoperability_standard": "Schema mappable to AgriStack / IDEA approach (not certified)"
             })
 
         return {
@@ -418,7 +493,7 @@ class AgriAIEngine:
                 {
                     "partnership": "Punjab-Haryana Ground Water Reclamation Consortium",
                     "focus": "Direct Seeded Rice (DSR) & In-situ Mulching Algorithms",
-                    "impact": "Saved 18.4 billion liters of water in 2025-26"
+                    "impact": "Indicative water savings from Direct Seeded Rice vs transplanted rice (based on IRRI/IARI published range)"
                 },
                 {
                     "partnership": "Maharashtra-Karnataka Dryland Millet Corridor",
@@ -431,7 +506,8 @@ class AgriAIEngine:
                     "impact": "0.22% average increase in topsoil Organic Carbon across 45,000 hectares"
                 }
             ],
-            "states_participating": states_summary
+            "states_participating": states_summary,
+            "data_note": "State nodes are demonstration zones seeded with sample data. No state government has formally joined this prototype."
         }
 
 agri_ai = AgriAIEngine()

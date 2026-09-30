@@ -82,7 +82,9 @@ async def get_satellite_and_weather(
     lon: float = 77.2090
 ):
     """
-    Provides real-time Sentinel-2 NDVI vegetative indices and 7-day agro-weather forecasts.
+    Returns modelled NDVI/NDWI vegetation indices and a live 7-day weather
+    forecast from the Open-Meteo free API (no API key required).
+    Falls back to simulated values if Open-Meteo is unreachable.
     """
     return agri_ai.get_satellite_and_weather_analytics(lat=lat, lon=lon)
 

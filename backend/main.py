@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 
 from database import connect_to_mongo, close_mongo_connection
-from api import sensor_data, parks, analytics, websocket_manager, heartbeat, agri
+from api import sensor_data, farms, analytics, websocket_manager, heartbeat, agri
 
 load_dotenv()
 
@@ -31,7 +31,7 @@ app.add_middleware(
 
 app.include_router(agri.router, prefix="/api", tags=["agri-advisory"])
 app.include_router(sensor_data.router, prefix="/api", tags=["sensor-data"])
-app.include_router(parks.router, prefix="/api", tags=["farms"])
+app.include_router(farms.router, prefix="/api", tags=["farms"])
 app.include_router(analytics.router, prefix="/api", tags=["analytics"])
 app.include_router(heartbeat.router, prefix="/api", tags=["heartbeat"])
 
