@@ -18,33 +18,47 @@ export const RegenerativeRecommender: React.FC = () => {
   const [ph, setPh] = useState<number>(6.8);
   const [moisture, setMoisture] = useState<number>(45);
   const [waterAvailability, setWaterAvailability] = useState<string>('medium');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [updating, setUpdating] = useState<boolean>(false);
   const [advisory, setAdvisory] = useState<RegenerativeAdvisoryResult | null>(null);
 
-  const fetchAdvisory = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await agriService.getRegenerativeAdvisory({
-        nitrogen,
-        phosphorus,
-        potassium,
-        ph,
-        moisture,
-        state_code: stateCode,
-        season,
-        water_availability: waterAvailability
-      });
-      setAdvisory(res);
-    } catch (err) {
-      console.error('Failed to get regenerative advisory:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, [nitrogen, phosphorus, potassium, ph, moisture, stateCode, season, waterAvailability]);
-
   useEffect(() => {
-    fetchAdvisory();
-  }, [fetchAdvisory]);
+    let isMounted = true;
+    const timer = setTimeout(async () => {
+      if (!advisory) {
+        setLoading(true);
+      } else {
+        setUpdating(true);
+      }
+      try {
+        const res = await agriService.getRegenerativeAdvisory({
+          nitrogen,
+          phosphorus,
+          potassium,
+          ph,
+          moisture,
+          state_code: stateCode,
+          season,
+          water_availability: waterAvailability
+        });
+        if (isMounted) {
+          setAdvisory(res);
+        }
+      } catch (err) {
+        console.error('Failed to get regenerative advisory:', err);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+          setUpdating(false);
+        }
+      }
+    }, 300);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+    };
+  }, [nitrogen, phosphorus, potassium, ph, moisture, stateCode, season, waterAvailability]);
 
   return (
     <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
@@ -64,6 +78,12 @@ export const RegenerativeRecommender: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center space-x-2">
+          {updating && (
+            <span className="flex items-center space-x-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-300 animate-pulse">
+              <ArrowPathIcon className="h-3.5 w-3.5 animate-spin text-emerald-600" />
+              <span>Updating...</span>
+            </span>
+          )}
           <span className="text-xs sm:text-sm font-bold text-emerald-900 bg-emerald-100 px-3.5 py-1.5 rounded-full border border-emerald-300">
             Soil-Biota Model Active
           </span>
@@ -238,13 +258,13 @@ export const RegenerativeRecommender: React.FC = () => {
         </div>
 
         {/* Results Presentation */}
-        {loading ? (
+        {loading && !advisory ? (
           <div className="flex items-center justify-center p-12 text-emerald-800 space-x-3 text-base font-semibold">
             <ArrowPathIcon className="h-6 w-6 animate-spin text-emerald-600" />
-            <span>Recalculating companion crop pairings, soil carbon, & water savings...</span>
+            <span>Calculating companion crop pairings, soil carbon, &amp; water savings...</span>
           </div>
         ) : advisory ? (
-          <div className="space-y-6">
+          <div className={`space-y-6 transition-opacity duration-200 ${updating ? 'opacity-70' : 'opacity-100'}`}>
             {/* Primary vs Companion Split Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-emerald-50/90 via-white to-white border-2 border-emerald-300 shadow-sm space-y-4">
