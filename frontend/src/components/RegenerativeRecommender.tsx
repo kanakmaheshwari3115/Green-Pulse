@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   SparklesIcon, 
   BeakerIcon, 
@@ -22,10 +22,13 @@ export const RegenerativeRecommender: React.FC = () => {
   const [updating, setUpdating] = useState<boolean>(false);
   const [advisory, setAdvisory] = useState<RegenerativeAdvisoryResult | null>(null);
 
+  const advisoryRef = useRef<RegenerativeAdvisoryResult | null>(advisory);
+  advisoryRef.current = advisory;
+
   useEffect(() => {
     let isMounted = true;
     const timer = setTimeout(async () => {
-      if (!advisory) {
+      if (!advisoryRef.current) {
         setLoading(true);
       } else {
         setUpdating(true);
