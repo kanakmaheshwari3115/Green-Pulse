@@ -121,7 +121,7 @@ export const ParkDetail: React.FC = () => {
             {park.tree_count && (
               <div className="flex items-center space-x-1">
                 <BeakerIcon className="h-4 w-4" />
-                <span>{park.tree_count} trees</span>
+                <span>{park.tree_count} Agroforestry Trees</span>
               </div>
             )}
           </div>
@@ -130,7 +130,7 @@ export const ParkDetail: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Overall Health Score</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">Overall Resilience Score</h3>
           <div className={`text-4xl font-bold ${getScoreColor(healthScore.overall_score)}`}>
             {healthScore.overall_score.toFixed(1)}/10
           </div>
@@ -140,34 +140,34 @@ export const ParkDetail: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Component Scores</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Agro-Ecological Component Scores</h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Tree Health</span>
+              <span className="text-sm text-gray-600">Canopy Vigor Index</span>
               <span className={`font-medium ${getScoreColor(healthScore.tree_health_score)}`}>
                 {healthScore.tree_health_score.toFixed(1)}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Microclimate</span>
+              <span className="text-sm text-gray-600">Microclimate Stability</span>
               <span className={`font-medium ${getScoreColor(healthScore.microclimate_score)}`}>
                 {healthScore.microclimate_score.toFixed(1)}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Soil & Water</span>
+              <span className="text-sm text-gray-600">Soil &amp; Moisture Balance</span>
               <span className={`font-medium ${getScoreColor(healthScore.soil_water_score)}`}>
                 {healthScore.soil_water_score.toFixed(1)}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Biodiversity</span>
+              <span className="text-sm text-gray-600">Crop &amp; Soil Diversity</span>
               <span className={`font-medium ${getScoreColor(healthScore.biodiversity_score)}`}>
                 {healthScore.biodiversity_score.toFixed(1)}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Infrastructure</span>
+              <span className="text-sm text-gray-600">Irrigation &amp; Edge Readiness</span>
               <span className={`font-medium ${getScoreColor(healthScore.infrastructure_score)}`}>
                 {healthScore.infrastructure_score.toFixed(1)}
               </span>

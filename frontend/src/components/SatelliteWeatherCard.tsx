@@ -107,7 +107,7 @@ export const SatelliteWeatherCard: React.FC = () => {
           <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-50/80 via-white to-white border-2 border-amber-200 shadow-xs space-y-3">
             <div className="flex items-center justify-between text-xs sm:text-sm">
               <span className="font-bold text-slate-600 uppercase tracking-wider">Ambient Microclimate</span>
-              <span className="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">IoT + IMD Blend</span>
+              <span className="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">Node + Open-Meteo Blend</span>
             </div>
             <div className="flex items-baseline space-x-4">
               <span className="text-4xl sm:text-5xl font-black text-amber-900">{weather.current_temperature}°C</span>
