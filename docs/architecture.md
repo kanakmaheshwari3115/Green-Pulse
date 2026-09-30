@@ -1,11 +1,11 @@
 # GreenPulse Agri-DPG Technical Architecture
 
 ## Overview
-GreenPulse Agri-DPG is an open Digital Public Good (DPG) platform for climate-resilient agriculture, computer vision crop disease diagnostics, regenerative farming advisories, and inter-state open data exchange.
+GreenPulse Agri-DPG is an open Digital Public Good (DPG) prototype for climate-resilient agriculture, rule-based crop disease screening, regenerative farming advisories, and inter-state open data exchange.
 
 ```
 ┌─────────────────────────┐      ┌─────────────────────────┐      ┌─────────────────────────┐
-│     IoT Field Nodes     │ ────▶│     FastAPI Backend     │ ────▶│  React Wide-Screen UI   │
+│     IoT Field Nodes     │ ────▶│     FastAPI Backend     │ ────▶│    React + TS Web UI    │
 │ (Soil, Weather, Camera) │      │  (Python AI Engine)     │      │ (AgriPortal & DPG Hub)  │
 └─────────────────────────┘      └─────────────────────────┘      └─────────────────────────┘
                                               │
@@ -21,17 +21,18 @@ GreenPulse Agri-DPG is an open Digital Public Good (DPG) platform for climate-re
 ## Component Specifications
 
 ### 1. Python FastAPI Backend (`backend/`)
-- **AI Engine (`agri_ai.py`)**: OpenCV color masking & lesion density analysis for plant pathogen detection; NPK/pH heuristic matrix for climate-resilient crop rotation; Sentinel-2 simulated NDVI & 7-day weather forecasting.
-- **Database Layer (`database.py`)**: MongoDB integration with automatic fallback to seed Indian agro-zones (Punjab, Maharashtra, Karnataka, Madhya Pradesh, Tamil Nadu).
-- **APIs (`api/agri.py`)**: REST endpoints for crop diagnostics, regenerative recommendations, satellite weather, farm telemetry, and AgriStack/IDEA JSON schema export.
+- **Advisory & Screening Core (`agri_ai.py`)**: OpenCV color masking & lesion density analysis for rule-based disease screening; NPK/pH heuristic matrix for climate-resilient companion crop rotation; modelled NDVI/NDWI vegetation indices combined with live 7-day weather forecasting via Open-Meteo API.
+- **Database Layer (`database.py`)**: MongoDB integration with automated seed script for Indian agro-zones demonstration data (Punjab, Maharashtra, Karnataka, Madhya Pradesh, Tamil Nadu).
+- **APIs (`api/agri.py`, `api/farms.py`)**: REST endpoints for crop disease screening, regenerative recommendations, weather & vegetation indices, farm telemetry, and AgriStack/IDEA-mappable JSON schema export.
 
-### 2. React Wide-Screen Frontend (`frontend/`)
-- **UI Framework**: React 19, TypeScript, Tailwind CSS v3 (using `max-w-[1720px]` container, vibrant emerald/sky/teal/amber color schemes).
+### 2. React TypeScript Frontend (`frontend/`)
+- **Stack**: React, TypeScript, Tailwind CSS.
 - **Views**:
-  - `AgriPortal.tsx`: Segmented tab portal for disease scanner, regenerative recommendations, satellite NDVI & 7-day weather forecast.
-  - `InterStateDPGView.tsx`: National Inter-State DPG Exchange showing open AI models, climate consortia, state resilience scores, and schema modal export.
-  - `Dashboard.tsx` & `ParkDetail.tsx`: Multi-station field telemetry and deep-dive node monitoring.
+  - `AgriPortal.tsx`: Segmented portal for crop disease screening, regenerative companion recommendations, and live 7-day weather with vegetation indices.
+  - `InterStateDPGView.tsx`: National Inter-State DPG Exchange demonstrating open models, climate consortia, state resilience scores, and schema export.
+  - `Dashboard.tsx` & `ParkDetail.tsx`: Multi-station field telemetry and node monitoring.
 
 ### 3. IoT Edge Telemetry Node (`iot-node/`)
-- **Sensors**: Soil moisture, temperature, humidity, light intensity, and camera image capture.
-- **Sender (`data_sender.py`)**: Automated REST/WebSocket telemetry ingestion with local failover data buffering.
+- **Sensors**: DHT22 (temperature, humidity), capacitive soil moisture, LDR light intensity, and camera image capture. (Soil pH/EC probe is planned in hardware roadmap).
+- **Sender & Buffer (`data_sender.py`)**: REST telemetry dispatcher with in-memory failover buffering (up to 100 items) and exponential back-off retries every 5 minutes.
+

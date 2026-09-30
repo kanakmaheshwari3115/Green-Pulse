@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   BuildingLibraryIcon,
@@ -11,6 +11,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ isConnected }) => {
   const location = useLocation();
+  const [lang, setLang] = useState<'EN' | 'HI'>('EN');
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -66,9 +67,9 @@ export const Header: React.FC<HeaderProps> = ({ isConnected }) => {
                 <span>Inter-State DPG</span>
               </Link>
               <Link 
-                to="/legacy-dashboard" 
+                to="/stations" 
                 className={`px-4 py-2 rounded-xl transition-all flex items-center space-x-2 ${
-                  isActive('/legacy-dashboard') 
+                  isActive('/stations') 
                     ? 'bg-white text-emerald-800 shadow-sm font-bold' 
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
@@ -80,11 +81,23 @@ export const Header: React.FC<HeaderProps> = ({ isConnected }) => {
             
             {/* Live Connection & Language Pill */}
             <div className="flex items-center space-x-3">
-              <div className="hidden sm:flex items-center space-x-2 px-3.5 py-1.5 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-700 font-semibold">
-                <span>🌐</span>
-                <span>EN</span>
+              <div className="hidden sm:flex items-center space-x-1 p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-semibold">
+                <span className="text-slate-400 pl-1">🌐</span>
+                <button 
+                  type="button"
+                  onClick={() => setLang('EN')}
+                  className={`px-2 py-0.5 rounded-lg transition-all ${lang === 'EN' ? 'bg-white text-emerald-800 font-bold shadow-xs' : 'text-slate-500 hover:text-slate-800'}`}
+                >
+                  EN
+                </button>
                 <span className="text-slate-300">|</span>
-                <span className="text-slate-500">हिन्दी</span>
+                <button 
+                  type="button"
+                  onClick={() => setLang('HI')}
+                  className={`px-2 py-0.5 rounded-lg transition-all ${lang === 'HI' ? 'bg-white text-emerald-800 font-bold shadow-xs' : 'text-slate-500 hover:text-slate-800'}`}
+                >
+                  हिन्दी
+                </button>
               </div>
 
               <div className="flex items-center space-x-2 px-3.5 py-1.5 rounded-full border text-xs font-bold bg-emerald-50 border-emerald-300 shadow-2xs">

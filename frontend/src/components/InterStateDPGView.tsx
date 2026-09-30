@@ -17,17 +17,17 @@ const fallbackDpgData: StateDPGModelResult = {
     {
       partnership: "Punjab-Haryana Ground Water Reclamation Consortium",
       focus: "Direct Seeded Rice (DSR) & In-situ Mulching Algorithms",
-      impact: "Saved 18.4 billion liters of water in 2025-26"
+      impact: "Indicative water savings from Direct Seeded Rice vs conventional flooding (based on IRRI/IARI range)"
     },
     {
       partnership: "Maharashtra-Karnataka Dryland Millet Corridor",
       focus: "Drought-Resilient Ragi & Jowar Multi-crop Data Models",
-      impact: "42% decrease in farm-level crop failure risks during late monsoon pauses"
+      impact: "42% decrease in farm-level crop failure risks during late monsoon pauses (literature-based)"
     },
     {
       partnership: "MP-Rajasthan Soil Organic Carbon Enhancement Initiative",
       focus: "Cover crop biomass algorithms & bio-char application telemetry",
-      impact: "0.22% average increase in topsoil Organic Carbon across 45,000 hectares"
+      impact: "0.22% average increase in topsoil Organic Carbon across 45,000 hectares (literature-based)"
     }
   ],
   states_participating: [
@@ -40,7 +40,7 @@ const fallbackDpgData: StateDPGModelResult = {
       shared_models_count: 24,
       active_farmer_nodes: 420,
       key_regenerative_practices: ["Direct Seeded Rice (DSR)", "Mungbean Crop Rotation", "Happy Seeder Mulching"],
-      interoperability_standard: "AgriStack / IDEA Open DPG v1.2"
+      interoperability_standard: "Mappable to AgriStack / IDEA"
     },
     {
       state_code: "MH",
@@ -51,7 +51,7 @@ const fallbackDpgData: StateDPGModelResult = {
       shared_models_count: 28,
       active_farmer_nodes: 850,
       key_regenerative_practices: ["Intercropping Cotton with Redgram", "Broad Bed Furrow (BBF)", "Farm Ponds"],
-      interoperability_standard: "AgriStack / IDEA Open DPG v1.2"
+      interoperability_standard: "Mappable to AgriStack / IDEA"
     },
     {
       state_code: "KA",
@@ -62,7 +62,7 @@ const fallbackDpgData: StateDPGModelResult = {
       shared_models_count: 19,
       active_farmer_nodes: 630,
       key_regenerative_practices: ["Millet Polyculture (Navadhanya)", "Agroforestry", "Contour Bunding"],
-      interoperability_standard: "AgriStack / IDEA Open DPG v1.2"
+      interoperability_standard: "Mappable to AgriStack / IDEA"
     },
     {
       state_code: "MP",
@@ -73,7 +73,7 @@ const fallbackDpgData: StateDPGModelResult = {
       shared_models_count: 18,
       active_farmer_nodes: 510,
       key_regenerative_practices: ["Soybean-Chickpea No-Till Rotation", "Organic Bio-Fertilization", "Micro-Irrigation"],
-      interoperability_standard: "AgriStack / IDEA Open DPG v1.2"
+      interoperability_standard: "Mappable to AgriStack / IDEA"
     },
     {
       state_code: "TN",
@@ -84,7 +84,7 @@ const fallbackDpgData: StateDPGModelResult = {
       shared_models_count: 15,
       active_farmer_nodes: 380,
       key_regenerative_practices: ["System of Rice Intensification (SRI)", "Pulse Intercropping", "Subsurface Drainage"],
-      interoperability_standard: "AgriStack / IDEA Open DPG v1.2"
+      interoperability_standard: "Mappable to AgriStack / IDEA"
     }
   ]
 };
@@ -169,13 +169,13 @@ export const InterStateDPGView: React.FC = () => {
               <div className="space-y-2">
                 <div className="inline-flex items-center space-x-1.5 px-3 py-1 bg-emerald-100 border border-emerald-300 rounded-full text-xs text-emerald-800 font-semibold">
                   <CheckBadgeIcon className="h-4 w-4" />
-                  <span>Certified Digital Public Good (DPG) • Open Public Infrastructure</span>
+                  <span>Open Digital Public Good (DPG) Prototype • AgriStack-Mappable Infrastructure</span>
                 </div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-tight">
                   Inter-State Digital Agriculture Exchange Network
                 </h1>
                 <p className="text-base text-slate-500 leading-relaxed max-w-3xl">
-                  Enabling state agricultural departments, ICAR universities, and farmer collectives to federate open soil health models, pest surveillance vectors, and climate-resilient cropping algorithms.
+                  A unified digital public infrastructure prototype enabling Indian state agricultural nodes to federate open soil health profiles, disease vectors, and climate-resilient cropping practices.
                 </p>
               </div>
             </div>
@@ -202,19 +202,19 @@ export const InterStateDPGView: React.FC = () => {
         {/* ── Stats Row ── */}
         <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-slate-100">
           <div className="p-6 bg-gradient-to-br from-emerald-50 to-white">
-            <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Participating States</p>
+            <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Demonstration State Nodes</p>
             <p className="text-3xl sm:text-4xl font-black text-emerald-700">{activeData.states_participating.length}</p>
-            <p className="text-sm text-slate-500 mt-1 font-medium">States</p>
+            <p className="text-sm text-slate-500 mt-1 font-medium">Seeded States</p>
           </div>
           <div className="p-6 bg-gradient-to-br from-sky-50 to-white">
-            <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Open AI Models Shared</p>
+            <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Open Models Shared</p>
             <p className="text-3xl sm:text-4xl font-black text-sky-600">104</p>
             <p className="text-sm text-slate-500 mt-1 font-medium">Models</p>
           </div>
           <div className="p-6 bg-gradient-to-br from-teal-50 to-white">
-            <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Open Standard</p>
+            <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Interoperability</p>
             <p className="text-2xl sm:text-3xl font-black text-teal-700">AgriStack</p>
-            <p className="text-sm text-slate-500 mt-1 font-medium">/ IDEA Protocol</p>
+            <p className="text-sm text-slate-500 mt-1 font-medium">/ IDEA Mappable</p>
           </div>
           <div className="p-6 bg-gradient-to-br from-amber-50 to-white">
             <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Data Access</p>
@@ -232,7 +232,7 @@ export const InterStateDPGView: React.FC = () => {
           </div>
           <div>
             <h2 className="text-xl sm:text-2xl font-black text-slate-900">Active Cross-State Climate Consortia</h2>
-            <p className="text-sm text-slate-400 font-medium">Collaborative research and data-sharing initiatives</p>
+            <p className="text-sm text-slate-400 font-medium">Demonstration models for collaborative data-sharing initiatives</p>
           </div>
         </div>
 
@@ -261,11 +261,11 @@ export const InterStateDPGView: React.FC = () => {
             </div>
             <div>
               <h2 className="text-xl sm:text-2xl font-black text-slate-900">Federated State Agriculture Nodes</h2>
-              <p className="text-sm text-slate-400 font-medium">Synchronized via AgriStack interoperability layer</p>
+              <p className="text-sm text-slate-400 font-medium">Demonstration profiles seeded with sample agro-ecological data</p>
             </div>
           </div>
           <span className="hidden sm:block text-sm text-slate-400 font-medium bg-slate-50 border border-slate-200 rounded-xl px-4 py-2">
-            {activeData.states_participating.length} Active Nodes
+            {activeData.states_participating.length} Demonstration Nodes
           </span>
         </div>
 

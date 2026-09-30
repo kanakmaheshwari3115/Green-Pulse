@@ -124,9 +124,9 @@ Open your **second terminal window**:
    ```
 
 The web application will open automatically at **[http://localhost:3000](http://localhost:3000)**:
-- **🌾 Farmer & Field Portal (`/`)**: Real-time soil telemetry, AI crop disease scanner, companion crop rotation planner, and Sentinel-2 satellite weather card.
-- **🏛 National DPG Hub (`/dpg`)**: Federated state agriculture nodes, cross-state consortia, and downloadable IDEA / AgriStack-compliant JSON schema.
-- **📊 Regional Overview (`/legacy-dashboard`)**: Multi-zone ecological monitoring and threshold alerts.
+- **🌾 Farmer & Field Portal (`/`)**: Soil telemetry, rule-based crop disease screening, companion crop rotation planner, and modelled NDVI & live Open-Meteo weather card.
+- **🏛 National DPG Hub (`/dpg`)**: Demonstration state nodes, illustrative consortia, and downloadable AgriStack/IDEA-mappable JSON schema.
+- **📊 Regional Stations (`/stations`)**: Multi-zone ecological monitoring and threshold alerts.
 
 ---
 
@@ -183,7 +183,7 @@ curl -X POST http://localhost:8000/api/agri/regenerative-recommendation ^
 *(On Linux / macOS bash, replace `^` with `\`)*
 
 ### 2. Test Satellite Earth Observation & Climate Forecast
-Retrieves Sentinel-2 NDVI canopy vigor, NDWI moisture stress, and 7-day IMD-modeled weather bulletin:
+Retrieves modelled NDVI canopy vigor, NDWI moisture stress, and live 7-day Open-Meteo weather forecast:
 
 ```bash
 curl http://localhost:8000/api/agri/satellite-weather?lat=19.9975&lon=73.7898

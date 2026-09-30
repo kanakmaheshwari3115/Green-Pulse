@@ -121,14 +121,16 @@ export const RegenerativeRecommender: React.FC = () => {
           </div>
         </div>
 
-        {/* Soil Health Sliders - Larger, Highly Visible */}
+        {/* Soil Health Card & IoT Moisture Sliders */}
         <div className="p-6 bg-slate-50/70 rounded-2xl border border-slate-200 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <span className="text-sm sm:text-base font-bold text-slate-800 flex items-center space-x-2">
               <BeakerIcon className="h-5 w-5 text-emerald-700" />
-              <span>Real-Time Soil Chemistry & Moisture Parameters</span>
+              <span>Soil Health Card Parameters (N-P-K, pH) &amp; IoT Moisture</span>
             </span>
-            <span className="text-xs sm:text-sm text-slate-500 font-medium">Adjust sliders to dynamically recalculate rotation</span>
+            <span className="text-xs font-semibold text-emerald-900 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300">
+              N-P-K &amp; pH: Soil Health Card / Lab • Moisture: IoT Probe
+            </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 pt-2">
@@ -261,8 +263,8 @@ export const RegenerativeRecommender: React.FC = () => {
                   Engineered for the <strong className="text-slate-800">{advisory.agro_climatic_zone}</strong> during <strong className="text-slate-800">{advisory.season}</strong> sowing.
                 </p>
                 <div className="pt-4 border-t border-emerald-100 flex items-center justify-between text-sm sm:text-base">
-                  <span className="text-slate-500 font-medium">Water Conservation:</span>
-                  <span className="font-black text-emerald-800 text-lg">+{advisory.water_savings_percentage}% saved vs monoculture</span>
+                  <span className="text-slate-500 font-medium">Indicative Water Savings:</span>
+                  <span className="font-black text-emerald-800 text-lg">~{advisory.water_savings_percentage_indicative}% vs monoculture <span className="text-xs font-medium text-slate-400">(heuristic)</span></span>
                 </div>
               </div>
 

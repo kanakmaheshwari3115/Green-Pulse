@@ -45,7 +45,7 @@ export const AgriPortal: React.FC = () => {
             <div className="flex items-center space-x-2.5">
               <span className="h-3 w-3 rounded-full bg-emerald-500 animate-pulse"></span>
               <span className="text-xs font-bold text-emerald-800 uppercase tracking-widest bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                Telemetry Station Active
+                Demonstration Agro-Station
               </span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
@@ -80,10 +80,13 @@ export const AgriPortal: React.FC = () => {
           </div>
         </div>
 
-        {/* Dynamic Telemetry Metric Cards - Vibrant Colors & Big Numbers */}
+        {/* Dynamic Telemetry Metric Cards - With Transparent Data Source Badges */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-emerald-50/80 via-white to-white border-2 border-emerald-200 shadow-xs flex flex-col justify-between space-y-3">
-            <span className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">IoT Soil Moisture</span>
+            <div className="flex items-center justify-between">
+              <span className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">IoT Soil Moisture</span>
+              <span className="text-[10px] font-black text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded border border-emerald-200">Capacitive Sensor</span>
+            </div>
             <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-emerald-800 tracking-tight">
               {selectedFarm?.state === 'Punjab' ? '42.0%' : selectedFarm?.state === 'Karnataka' ? '36.8%' : '46.5%'}
             </p>
@@ -95,7 +98,10 @@ export const AgriPortal: React.FC = () => {
           </div>
 
           <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-blue-50/80 via-white to-white border-2 border-blue-200 shadow-xs flex flex-col justify-between space-y-3">
-            <span className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">Soil Reaction (pH)</span>
+            <div className="flex items-center justify-between">
+              <span className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">Soil Reaction (pH)</span>
+              <span className="text-[10px] font-black text-blue-800 bg-blue-100 px-2 py-0.5 rounded border border-blue-200">Seeded Lab Data</span>
+            </div>
             <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-blue-900 tracking-tight">
               {selectedFarm?.state === 'Punjab' ? '7.20 pH' : selectedFarm?.state === 'Karnataka' ? '6.45 pH' : '6.85 pH'}
             </p>
@@ -107,7 +113,10 @@ export const AgriPortal: React.FC = () => {
           </div>
 
           <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-amber-50/80 via-white to-white border-2 border-amber-200 shadow-xs flex flex-col justify-between space-y-3">
-            <span className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">Canopy Temperature</span>
+            <div className="flex items-center justify-between">
+              <span className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">Canopy Temperature</span>
+              <span className="text-[10px] font-black text-amber-800 bg-amber-100 px-2 py-0.5 rounded border border-amber-200">DHT22 Ambient</span>
+            </div>
             <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-amber-900 tracking-tight">
               {selectedFarm?.state === 'Punjab' ? '23.8°C' : selectedFarm?.state === 'Karnataka' ? '30.2°C' : '27.4°C'}
             </p>
@@ -119,7 +128,10 @@ export const AgriPortal: React.FC = () => {
           </div>
 
           <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-teal-50/80 via-white to-white border-2 border-teal-200 shadow-xs flex flex-col justify-between space-y-3">
-            <span className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">Climate Resilience</span>
+            <div className="flex items-center justify-between">
+              <span className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">Climate Resilience</span>
+              <span className="text-[10px] font-black text-teal-800 bg-teal-100 px-2 py-0.5 rounded border border-teal-200">Scoring Model</span>
+            </div>
             <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-teal-800 tracking-tight">
               {selectedFarm?.state === 'Punjab' ? '8.8 / 10' : selectedFarm?.state === 'Karnataka' ? '8.2 / 10' : '8.6 / 10'}
             </p>

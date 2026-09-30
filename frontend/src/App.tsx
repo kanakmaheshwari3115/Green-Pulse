@@ -42,7 +42,8 @@ function App() {
             <Route path="/dpg" element={<InterStateDPGView />} />
             
             {/* Multi-Station Field Telemetry Grid */}
-            <Route path="/legacy-dashboard" element={<Dashboard />} />
+            <Route path="/stations" element={<Dashboard />} />
+            <Route path="/legacy-dashboard" element={<Navigate to="/stations" replace />} />
             
             {/* Station / Farm Deep-Dive View */}
             <Route path="/park/:parkId" element={<ParkDetail />} />

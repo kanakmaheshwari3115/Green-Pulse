@@ -29,7 +29,7 @@ export const SatelliteWeatherCard: React.FC = () => {
   if (loading || !data) {
     return (
       <div className="bg-white rounded-3xl p-12 border border-slate-200 text-center text-sm font-semibold text-slate-500">
-        Syncing Sentinel-2 satellite telemetry & IMD meteorological models...
+        Fetching weather forecast & computing vegetation indices...
       </div>
     );
   }
@@ -50,13 +50,13 @@ export const SatelliteWeatherCard: React.FC = () => {
               Satellite Earth Observation & Climate Forecast
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-0.5">
-              Sentinel-2 10m multispectral vegetation telemetry & 7-day localized IMD agro-weather bulletin
+              Modelled NDVI/NDWI vegetation indices & live 7-day forecast via Open-Meteo
             </p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
           <span className="text-xs sm:text-sm font-bold text-sky-900 bg-sky-100 px-3.5 py-1.5 rounded-full border border-sky-300">
-            Constellation: Sentinel-2A / IMD
+            Weather: Open-Meteo API
           </span>
         </div>
       </div>
@@ -81,7 +81,7 @@ export const SatelliteWeatherCard: React.FC = () => {
                 style={{ width: `${Math.min(100, Math.max(0, sat.ndvi * 100))}%` }}
               ></div>
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 font-medium">Photosynthetic biomass activity via Sentinel-2 NIR Band 8</p>
+            <p className="text-xs sm:text-sm text-slate-600 font-medium">Modelled index (Sentinel-2 NDVI approach) — satellite API integration planned</p>
           </div>
 
           <div className="p-6 rounded-3xl bg-gradient-to-br from-sky-50/80 via-white to-white border-2 border-sky-200 shadow-xs space-y-3">
@@ -136,7 +136,9 @@ export const SatelliteWeatherCard: React.FC = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <span className="text-sm sm:text-base font-bold text-slate-800">7-Day Rainfall & Temperature Forecast</span>
-            <span className="text-xs text-slate-500 font-semibold">Localized IMD numerical weather prediction</span>
+            <span className="text-xs text-slate-500 font-semibold">
+              Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" className="text-sky-700 underline hover:text-sky-900">Open-Meteo.com</a> (CC BY 4.0)
+            </span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
             {weather.forecast_7_days.map((day, idx) => (

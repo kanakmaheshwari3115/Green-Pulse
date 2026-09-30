@@ -70,10 +70,10 @@ export const CropDiseaseScanner: React.FC = () => {
           </div>
           <div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              AI Crop Disease Diagnostic Scanner
+              Crop Disease Screening Tool
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-0.5">
-              Computer vision foliage pathology & regenerative organic treatment protocols
+              HSV colour-mask screening for 4 crop diseases &amp; dual-tier remedy protocols
             </p>
           </div>
         </div>
@@ -157,10 +157,10 @@ export const CropDiseaseScanner: React.FC = () => {
             <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-2">
               <div className="font-bold text-slate-900 text-sm sm:text-base flex items-center space-x-2">
                 <SparklesIcon className="h-5 w-5 text-emerald-700" />
-                <span>On-Field Foliage Pathologist</span>
+                <span>Automated Foliage Screening Aid</span>
               </div>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Computer vision checks necrotic lesions, edge discoloration, and chlorosis ratio against localized disease models, delivering dual-action bio-organic remedies and emergency chemical controls.
+                Image processing checks necrotic lesion density and chlorosis against an expert knowledge base covering 4 common crop diseases. Note: Preliminary rule-based screening; not a substitute for a certified agronomist.
               </p>
             </div>
 
@@ -177,7 +177,7 @@ export const CropDiseaseScanner: React.FC = () => {
               ) : (
                 <>
                   <SparklesIcon className="h-5 w-5 text-emerald-300" />
-                  <span>Run AI Disease Analysis</span>
+                  <span>Run Disease Screening</span>
                 </>
               )}
             </button>
@@ -202,12 +202,14 @@ export const CropDiseaseScanner: React.FC = () => {
                     ? 'bg-rose-100 text-rose-900 border-rose-300' 
                     : diagnosis.severity === 'medium' 
                     ? 'bg-amber-100 text-amber-900 border-amber-300' 
-                    : 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                    : diagnosis.severity === 'none'
+                    ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                    : 'bg-slate-100 text-slate-700 border-slate-300'
                 }`}>
-                  Severity: {diagnosis.severity.toUpperCase()}
+                  {diagnosis.severity === 'none' ? 'Healthy' : `Severity: ${diagnosis.severity.toUpperCase()}`}
                 </span>
                 <span className="px-4 py-1.5 rounded-full text-xs sm:text-sm font-black bg-slate-100 text-slate-900 border border-slate-300">
-                  Confidence: {diagnosis.confidence_score}%
+                  Match Score: {diagnosis.confidence_score}%
                 </span>
               </div>
             </div>
@@ -253,19 +255,25 @@ export const CropDiseaseScanner: React.FC = () => {
               </div>
 
               {/* Chemical Remedies */}
-              <div className="p-6 rounded-3xl bg-amber-50/90 border-2 border-amber-300 space-y-3">
-                <div className="flex items-center space-x-2.5 text-amber-950 font-black text-sm sm:text-base">
-                  <BeakerIcon className="h-6 w-6 text-amber-700" />
-                  <span>Targeted Chemical Controls (Threshold Emergency)</span>
+              <div className="p-6 rounded-3xl bg-amber-50/90 border-2 border-amber-300 space-y-3 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center space-x-2.5 text-amber-950 font-black text-sm sm:text-base mb-3">
+                    <BeakerIcon className="h-6 w-6 text-amber-700" />
+                    <span>Targeted Chemical Controls (Threshold Emergency)</span>
+                  </div>
+                  <ul className="space-y-2 text-xs sm:text-sm text-slate-800">
+                    {diagnosis.chemical_remedies.map((remedy, i) => (
+                      <li key={i} className="flex items-start space-x-2">
+                        <span className="text-amber-700 font-black text-base leading-none">•</span>
+                        <span className="leading-relaxed font-medium">{remedy}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="space-y-2 text-xs sm:text-sm text-slate-800">
-                  {diagnosis.chemical_remedies.map((remedy, i) => (
-                    <li key={i} className="flex items-start space-x-2">
-                      <span className="text-amber-700 font-black text-base leading-none">•</span>
-                      <span className="leading-relaxed font-medium">{remedy}</span>
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-[11px] text-amber-900/80 font-medium pt-3 border-t border-amber-200 leading-normal">
+                  ⚠️ <strong>Advisory:</strong> Indicative dosages only. Always confirm application rates with the manufacturer product label and state university extension advisories.
+                  {selectedCrop === 'cotton' && ' Note: Chemical sprays for Cotton Leaf Curl Virus manage the insect vector (whitefly / Bemisia tabaci), not the virus directly.'}
+                </p>
               </div>
             </div>
 

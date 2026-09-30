@@ -1,7 +1,7 @@
 # GreenPulse Agri-DPG API Documentation
 
 ## Overview
-The GreenPulse Agri-DPG backend is a FastAPI application serving AI-driven agricultural intelligence, crop disease diagnostics, regenerative farming recommendations, satellite/weather telemetry, and Inter-State Digital Public Good (DPG) data exchange models.
+The GreenPulse Agri-DPG backend is a FastAPI application serving rule-based crop disease screening, regenerative farming recommendations, modelled vegetation indices, live Open-Meteo weather forecasts, and Inter-State Digital Public Good (DPG) data exchange models.
 
 Base URL: `http://localhost:8000`
 
@@ -9,7 +9,7 @@ Base URL: `http://localhost:8000`
 
 ## 1. Agricultural Advisory & Diagnostic Endpoints (`/api/agri/*`)
 
-### AI Crop Disease Diagnosis (File Upload)
+### Crop Disease Screening (File Upload)
 ```http
 POST /api/agri/diagnose
 Content-Type: multipart/form-data
@@ -69,7 +69,7 @@ Content-Type: application/json
 }
 ```
 
-### Satellite NDVI & 7-Day Weather Analytics
+### Modelled NDVI & 7-Day Live Open-Meteo Weather Analytics
 ```http
 GET /api/agri/satellite-weather?lat=28.6139&lon=77.2090
 ```
@@ -79,12 +79,12 @@ GET /api/agri/satellite-weather?lat=28.6139&lon=77.2090
 GET /api/agri/farms
 ```
 
-### Inter-State DPG Exchange Models
+### Inter-State DPG Exchange Models (Demonstration)
 ```http
 GET /api/agri/dpg/states
 ```
 
-### Export AgriStack / IDEA DPG Schema
+### Export AgriStack / IDEA-Mappable DPG Schema
 ```http
 GET /api/agri/dpg/export-schema
 ```

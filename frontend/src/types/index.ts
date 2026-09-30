@@ -125,7 +125,8 @@ export interface RegenerativeAdvisoryResult {
   regenerative_companion_crop: string;
   soil_conservation_plan: string[];
   companion_crop_options: string[];
-  water_savings_percentage: number;
+  water_savings_percentage_indicative: number;
+  water_savings_basis: string;
   soil_carbon_sequestration_rating: string;
   state_proven_practices: string[];
   advisory_summary: string;
